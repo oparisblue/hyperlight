@@ -34,7 +34,7 @@ Validation is automatically performed to ensure that all values passed into your
 
 ### Setup for Servers
 
-For servers, install the package, and then run the following command to set up a new project:
+For servers, run the following command to set up a new project that uses hyperlight:
 
 ```
 npx hyperlight create-server-project
