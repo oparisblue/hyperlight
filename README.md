@@ -45,7 +45,7 @@ If you prefer to do the installation manually, you can follow the steps below. T
 - Install the ts-patch dev dependency into your project [as described here](https://github.com/nonara/ts-patch?tab=readme-ov-file#method-2-persistent-patch).
 - Add the hyperlight plugin to the `compilerOptions` in your tsconfig.json:
   ```json
-  "plugins": [{ "transform": "hyperlight/patch" }]
+  "plugins": [{ "transform": "hyperlight/lib/patch" }]
   ```
 - Run `tsc` to build your project.
 
