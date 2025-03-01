@@ -3,7 +3,11 @@
   "version": "1.0.7",
   "author": "Orlando Parisblue",
   "license": "MIT",
-  "url": "https://github.com/oparisblue/hyperlight",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oparisblue/hyperlight.git"
+  },
+  "homepage": "https://github.com/oparisblue/hyperlight",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "bin": "./lib/cli",
