@@ -6,7 +6,7 @@
   "url": "https://github.com/oparisblue/hyperlight",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
-  "bin": "./lib/cli.js",
+  "bin": "./lib/cli",
   "tsp": {
     "tscOptions": {
       "parseAllJsDoc": true
@@ -24,7 +24,7 @@
   },
   "scripts": {
     "build": "concurrently \"yarn buildCli\" \"yarn buildPatch\" \"yarn buildServer\"",
-    "buildCli": "tsup src/cli/cli.ts --outDir=lib",
+    "buildCli": "tsup src/cli/cli.ts --minify --outDir=lib && sed -i '' '1s/^/#!\\/usr\\/bin\\/env node\\n/' lib/cli.js && mv lib/cli.js lib/cli",
     "buildPatch": "tsup src/patch/patch.ts --minify --outDir=lib",
     "buildServer": "tsup src/server/index.ts --dts --minify --outDir=lib"
   },
