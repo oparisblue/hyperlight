@@ -12,7 +12,7 @@ export function setUpTsConfig(path: string) {
           lib: ["ESNext"],
           rootDir: "src",
           outDir: "build-tmp",
-          plugins: [{ transform: `${LIBRARY_NAME}/patch` }],
+          plugins: [{ transform: `${LIBRARY_NAME}/lib/patch` }],
           module: "NodeNext",
           skipLibCheck: true,
           esModuleInterop: true

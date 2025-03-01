@@ -24,8 +24,11 @@
   },
   "scripts": {
     "build": "concurrently \"yarn buildCli\" \"yarn buildPatch\" \"yarn buildServer\"",
-    "buildCli": "tsup src/cli/cli.ts --minify --outDir=lib",
+    "buildCli": "tsup src/cli/cli.ts --outDir=lib",
     "buildPatch": "tsup src/patch/patch.ts --minify --outDir=lib",
     "buildServer": "tsup src/server/index.ts --dts --minify --outDir=lib"
-  }
+  },
+  "files": [
+    "lib"
+  ]
 }
