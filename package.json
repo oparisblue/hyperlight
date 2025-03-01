@@ -1,0 +1,31 @@
+{
+  "name": "hyperlight",
+  "version": "0.0.1",
+  "author": "Orlando Parisblue",
+  "license": "MIT",
+  "url": "https://github.com/oparisblue/hyperlight",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "bin": "./lib/cli.js",
+  "tsp": {
+    "tscOptions": {
+      "parseAllJsDoc": true
+    }
+  },
+  "dependencies": {
+    "hyper-express": "^6.17.3",
+    "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "concurrently": "^9.1.2",
+    "ts-patch": "^3.3.0",
+    "tsup": "^8.3.6"
+  },
+  "scripts": {
+    "build": "concurrently \"yarn buildCli\" \"yarn buildPatch\" \"yarn buildServer\"",
+    "buildCli": "tsup src/cli/cli.ts --minify --outDir=lib",
+    "buildPatch": "tsup src/patch/patch.ts --minify --outDir=lib",
+    "buildServer": "tsup src/server/index.ts --dts --minify --outDir=lib"
+  }
+}
