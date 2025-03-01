@@ -1,4 +1,3 @@
-import { exec, spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { Colors, LIBRARY_NAME } from "../../common";
@@ -12,12 +11,14 @@ import {
 } from "./steps";
 import { setUpSrcFolder } from "./steps/setUpSrcFolder";
 
-export async function createServerProject(): Promise<void> {
+export async function createServerProject(
+  nameFromArgs: string | undefined
+): Promise<void> {
   log(`${Colors.FgMagenta}Thanks for choosing ${LIBRARY_NAME}!${Colors.Reset}`);
   log("");
   log(`We'll create a new folder for your project in the current directory.`);
   log("");
-  const name = await getProjectName();
+  const name = nameFromArgs || (await getProjectName());
   log("");
   const done = spinner("Hang tight...");
 

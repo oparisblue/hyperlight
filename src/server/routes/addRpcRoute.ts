@@ -4,6 +4,10 @@ import { rpcs } from "../registerRpc";
 import { unwrapValueAndCheckType } from "../../common";
 
 export function addRpcRoute(server: Server) {
+  server.get(globals.rpcPath, (_request, response) => {
+    response.sendStatus(400);
+  });
+
   server.post(globals.rpcPath, async (request, response) => {
     const body = await request.json();
     if (!body) {
