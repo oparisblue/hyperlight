@@ -22,7 +22,7 @@ async function cli() {
   }
 
   if (args[0] === "create-server-project") {
-    await createServerProject();
+    await createServerProject(args[1]);
     return;
   }
 

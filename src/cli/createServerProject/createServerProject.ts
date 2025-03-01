@@ -47,6 +47,11 @@ async function getProjectName() {
   while (true) {
     const name = await input("What do you want to call it?");
 
+    if (name === "") {
+      log(`${Colors.FgYellow}You must enter a name${Colors.Reset}`);
+      continue;
+    }
+
     const folderAlreadyExists = existsSync(join(process.cwd(), name));
     if (!folderAlreadyExists) return name;
 
