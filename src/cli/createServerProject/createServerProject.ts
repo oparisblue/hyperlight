@@ -36,6 +36,10 @@ export async function createServerProject(): Promise<void> {
   log(
     `Run ${Colors.FgMagenta}yarn build${Colors.Reset} to build your project, and ${Colors.FgMagenta}yarn start${Colors.Reset} to start it`
   );
+  log("");
+  log(
+    `Once your server is all up and running, you can run ${Colors.FgMagenta}npx hyperlight add-client${Colors.Reset} in your client project to run codegen against it`
+  );
 }
 
 async function getProjectName() {

@@ -49,7 +49,11 @@ export async function addClient(
 
   updateGenerationConfig(updatedConfig);
 
-  log("Config saved!");
   log("");
+  log(`${Colors.FgGreen}Config saved!${Colors.Reset}`);
+  log(
+    `Run ${Colors.FgMagenta}npx hyperlight generate${Colors.Reset} to run codegen against your newly configured client`
+  );
+
   return updatedConfig;
 }
