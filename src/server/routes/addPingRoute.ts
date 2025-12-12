@@ -23,7 +23,7 @@ export function addPingRoute(server: Server) {
             uptimeRaw,
             requestsHandled,
             rpcPath: rpcPathWithBase,
-            schemaPath: schemaPathWithBase
+            schemaPath: schemaPathWithBase,
           },
           null,
           2
@@ -40,7 +40,7 @@ export function addPingRoute(server: Server) {
           `RPC requests handled: ${requestsHandled}\n\n` +
           `RPC endpoint:         ${rpcPathWithBase}\n` +
           `Schema endpoint:      ${schemaPathWithBase ?? "disabled"}\n\n` +
-          `Run "npx ${LIBRARY_NAME} add-client ${pingPathWithBase}" to set up an RPC client against this service.\n\n` +
+          `Run "npx ${LIBRARY_NAME} generate ${pingPathWithBase}" to generate your RPC client against this service.\n\n` +
           `This page only appears while dev mode is enabled in your service's configuration.\n` +
           `You can also go to ${pingPathWithBase}?json to receive this data formatted as JSON.\n`
       );

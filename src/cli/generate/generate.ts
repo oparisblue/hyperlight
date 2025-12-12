@@ -1,19 +1,40 @@
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname } from "node:path";
 import { Colors } from "../../common";
 import { fetchSchema, printConnectionAdvice } from "../fetchSchema";
 import { GenerationConfig, GenerationConfigClient } from "../generationConfig";
-import { log, spinner } from "../utils";
+import { confirm, input, log, spinner } from "../utils";
 import { generateTypescriptCodeAgainstSchema } from "./generateTypescriptCodeAgainstSchema";
+import { addClient } from "../addClient";
+import { checkIfWeShouldProceedOnServerWithEmptyClients } from "../warnOnServerWithEmptyClients";
 
 export async function generate(config: GenerationConfig) {
+  const shouldProceed = await checkIfWeShouldProceedOnServerWithEmptyClients(
+    config
+  );
+  if (!shouldProceed) return;
+
   let failed = false;
+
+  if (config.clients.length === 0) {
+    const shouldAddClient =
+      shouldProceed ||
+      (await confirm(
+        "There are no clients or no configuration file. Would you like to add a client now?"
+      ));
+
+    if (shouldAddClient) {
+      await addClient(config, undefined);
+      return true;
+    }
+
+    return false;
+  }
 
   for (const client of config.clients) {
     const result = await generateClient(client);
     if (!result) failed = true;
   }
-
-  log("");
 
   if (failed) {
     log("");
@@ -40,6 +61,7 @@ async function generateClient(
     fetchResult.rpcPath
   );
 
+  mkdirSync(dirname(client.out), { recursive: true });
   writeFileSync(client.out, code);
   stop(true, "done");
   return true;

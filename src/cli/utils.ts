@@ -5,7 +5,7 @@ export function input(question: string): Promise<string> {
   return new Promise((resolve) => {
     const readline = createInterface({
       input: process.stdin,
-      output: process.stdout
+      output: process.stdout,
     });
 
     readline.question(
@@ -68,4 +68,11 @@ export function log(text: string) {
 
 export function bullet(text: string) {
   console.log(`  • ${text}`);
+}
+
+export async function confirm(question: string): Promise<boolean> {
+  const result = await input(
+    `${question} (${Colors.FgGreen}y${Colors.Reset}/${Colors.FgRed}n${Colors.Reset}) `
+  );
+  return result.trim().toLowerCase().startsWith("y");
 }

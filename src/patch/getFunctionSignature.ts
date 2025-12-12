@@ -6,7 +6,8 @@ const NAME_REGEX = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
 
 export function getFunctionSignature(
   program: ts.Program,
-  node: ts.FunctionDeclaration
+  node: ts.FunctionDeclaration,
+  tsInstance: typeof ts
 ): Signature | undefined {
   const typeChecker = program.getTypeChecker();
 
@@ -38,5 +39,28 @@ export function getFunctionSignature(
   );
   if (!returnType) return;
 
-  return { functionName, params, returnType };
+  return {
+    functionName,
+    params,
+    returnType,
+    jsDoc: getJsDocText(node, tsInstance),
+  };
+}
+
+function getJsDocText(node: ts.Node, tsInstance: typeof ts): string {
+  const commentsAndTags = tsInstance.getJSDocCommentsAndTags(node);
+  const parts = [];
+
+  for (const node of commentsAndTags) {
+    if (typeof node === "string") parts.push(node);
+
+    if ("tags" in node) {
+      parts.push(node.comment);
+      for (const tag of node.tags ?? []) {
+        parts.push(`@${tag.tagName.text} ${tag.comment ?? ""}`);
+      }
+    }
+  }
+
+  return parts.join("\n").replaceAll("@endpoint", "").trim();
 }

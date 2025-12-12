@@ -45,14 +45,14 @@ export default function (
           undefined,
           [
             factory.createIdentifier(signature.functionName),
-            factory.createStringLiteral(JSON.stringify(signature))
+            factory.createStringLiteral(JSON.stringify(signature)),
           ]
         );
 
         const result = factory.createNodeArray([
           node,
           callExpression,
-          factory.createToken(ts.SyntaxKind.SemicolonToken)
+          factory.createToken(ts.SyntaxKind.SemicolonToken),
         ]);
 
         endpointNames.add(signature.functionName);
@@ -79,7 +79,7 @@ function visitNode(
 
   const functionName = node.name?.getText();
 
-  const signature = getFunctionSignature(program, node);
+  const signature = getFunctionSignature(program, node, tsInstance);
 
   if (!signature) {
     console.log(
@@ -95,7 +95,7 @@ function visitNode(
     return;
   }
 
-  return { ...signature, jsDoc: getJsDocText(node, tsInstance) };
+  return signature;
 }
 
 function isEndpoint(
@@ -117,22 +117,4 @@ function requireRegisterRpc(factory: ts.NodeFactory): ts.Node {
     ),
     factory.createIdentifier(REGISTER_METHOD_NAME)
   );
-}
-
-function getJsDocText(node: ts.Node, tsInstance: typeof ts): string {
-  const commentsAndTags = tsInstance.getJSDocCommentsAndTags(node);
-  const parts = [];
-
-  for (const node of commentsAndTags) {
-    if (typeof node === "string") parts.push(node);
-
-    if ("tags" in node) {
-      parts.push(node.comment);
-      for (const tag of node.tags ?? []) {
-        parts.push(`@${tag.tagName.text} ${tag.comment ?? ""}`);
-      }
-    }
-  }
-
-  return parts.join("\n").replaceAll("@endpoint", "").trim();
 }

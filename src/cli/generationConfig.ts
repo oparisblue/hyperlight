@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { CONFIG_FILE_NAME } from "../common";
+import { Colors, CONFIG_FILE_NAME } from "../common";
 
 export interface GenerationConfigClient {
   url: string;
@@ -8,6 +8,7 @@ export interface GenerationConfigClient {
 }
 
 export interface GenerationConfig {
+  environment?: "node";
   clients: GenerationConfigClient[];
 }
 
@@ -29,7 +30,7 @@ export function getGenerationConfig(): GenerationConfig {
 
   if (
     ("clients" in json && !Array.isArray(json.clients)) ||
-    json.clients.some(
+    json.clients?.some(
       (client: unknown) =>
         !client ||
         typeof client !== "object" ||
@@ -42,7 +43,10 @@ export function getGenerationConfig(): GenerationConfig {
     throw new Error(`Malformed clients array in ${CONFIG_FILE_NAME}`);
   }
 
-  return { clients: json.clients ?? [] };
+  const environment =
+    "environment" in json && json.environment === "node" ? "node" : undefined;
+
+  return { clients: json.clients ?? [], environment };
 }
 
 export function updateGenerationConfig(config: GenerationConfig): void {

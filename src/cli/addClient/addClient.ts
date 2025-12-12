@@ -1,12 +1,19 @@
 import { Colors } from "../../common";
 import { fetchSchema, printConnectionAdvice } from "../fetchSchema";
+import { generate } from "../generate";
 import { GenerationConfig, updateGenerationConfig } from "../generationConfig";
 import { input, log, spinner } from "../utils";
+import { checkIfWeShouldProceedOnServerWithEmptyClients } from "../warnOnServerWithEmptyClients";
 
 export async function addClient(
   existingConfig: GenerationConfig,
   urlFromArgs: string | undefined
 ) {
+  const shouldProceed = await checkIfWeShouldProceedOnServerWithEmptyClients(
+    existingConfig
+  );
+  if (!shouldProceed) return;
+
   let url: string = urlFromArgs ?? "";
   let isTryingUrlFromArgs = !!urlFromArgs;
 
@@ -44,16 +51,16 @@ export async function addClient(
 
   const updatedConfig = {
     ...existingConfig,
-    clients: [...existingConfig.clients, { url, out }]
+    clients: [...existingConfig.clients, { url, out }],
   };
 
   updateGenerationConfig(updatedConfig);
 
   log("");
+  await generate(updatedConfig);
+
+  log("");
   log(`${Colors.FgGreen}Config saved!${Colors.Reset}`);
-  log(
-    `Run ${Colors.FgMagenta}npx hyperlight generate${Colors.Reset} to run codegen against your newly configured client`
-  );
 
   return updatedConfig;
 }

@@ -4,10 +4,10 @@ import { Colors, LIBRARY_NAME } from "../../common";
 import { input, log, spinner } from "../utils";
 import {
   createProjectFolder,
-  setUpExpressLaneConfig,
+  setUpHyperlightConfig,
   setUpGit,
   setUpTsConfig,
-  setUpYarn
+  setUpYarn,
 } from "./steps";
 import { setUpSrcFolder } from "./steps/setUpSrcFolder";
 
@@ -27,7 +27,7 @@ export async function createServerProject(
   createProjectFolder(basePath);
   setUpYarn(basePath, name);
   setUpTsConfig(basePath);
-  setUpExpressLaneConfig(basePath);
+  setUpHyperlightConfig(basePath);
   setUpSrcFolder(basePath);
   setUpGit(basePath);
 
@@ -39,7 +39,7 @@ export async function createServerProject(
   );
   log("");
   log(
-    `Once your server is all up and running, you can run ${Colors.FgMagenta}npx hyperlight add-client${Colors.Reset} in your client project to run codegen against it`
+    `Once your server is all up and running, you can run ${Colors.FgMagenta}npx hyperlight generate${Colors.Reset} in your client project to run codegen against it`
   );
 }
 

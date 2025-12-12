@@ -18,8 +18,8 @@ export function setUpYarn(path: string, name: string) {
         scripts: {
           prepare: "ts-patch install -s",
           build: `tsc && esbuild --bundle ./build-tmp --minify --platform=node --external:${LIBRARY_NAME} --outfile=build/index.js && rm -rf ./build-tmp`,
-          start: "node ./build/index.js"
-        }
+          start: "yarn build && node ./build/index.js",
+        },
       },
       null,
       2
